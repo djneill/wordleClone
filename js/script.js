@@ -51,3 +51,19 @@ document.addEventListener('keyup', (e) => {
         insertLetter(pressedKey)
     }
 })
+
+// Insert letters into gameboard
+function insertLetter (pressedKey) {
+    if (nextLetter === 5) {
+        return
+    }
+
+    pressedKey = pressedKey.toLowerCase()
+
+    let row = document.getElementsByClassName('letterRow')[6 - guessesRemaining]
+    let box = row.children[nextLetter]
+    box.textContent = pressedKey
+    box.classList.add('filledBox')
+    currentGuess.push(pressedKey)
+    nextLetter += 1
+}
