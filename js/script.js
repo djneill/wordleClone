@@ -67,3 +67,13 @@ function insertLetter (pressedKey) {
     currentGuess.push(pressedKey)
     nextLetter += 1
 }
+
+// Delete previous letter entered
+function deleteLetter () {
+    let row = document.getElementsByClassName('letterRow')[6 - guessesRemaining]
+    let box = row.children[nextLetter - 1]
+    box.textContent = ""
+    box.classList.remove('filledBox')
+    currentGuess.pop()
+    nextLetter -= 1
+}
