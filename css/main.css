@@ -1,3 +1,38 @@
 h1 {
     text-align: center;
 }
+
+#gameBoard {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.letterBox {
+    border: 2px solid gray;
+    border-radius: 3px;
+    margin: 2px;
+    font-size: 2.5rem;
+    font-weight: 700;
+    height: 3rem;
+    width: 3rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-transform: uppercase;
+}
+
+.filledBox {
+    border: 2px solid black;
+}
+
+.letterRow {
+    display: flex;
+}
+
+#keyboardCont {
+    margin: 1rem 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
