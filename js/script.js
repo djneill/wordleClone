@@ -153,13 +153,13 @@ function checkGuess() {
 }
 
 // shade keyboard to make letters
-function shadekeyBoard(letter, color) {
-    for (const elem of document.getElementsByClassName('keyboardButton')) {
+function shadeKeyBoard(letter, color) {
+    for (const elem of document.getElementsByClassName("keyboardButton")) {
         if (elem.textContent === letter) {
             let oldColor = elem.style.backgroundColor
             if (oldColor === 'green') {
                 return
-            }
+            } 
 
             if (oldColor === 'yellow' && color !== 'green') {
                 return
@@ -173,20 +173,19 @@ function shadekeyBoard(letter, color) {
 
 // On screen keyboard functionality
 
-document.getElementById('keyboardCont').addEventListener('click', (e) => {
+document.getElementById("keyboardCont").addEventListener("click", (e) => {
     const target = e.target
-
-    if (!target.classList.contains('keyboardButton')) {
+    
+    if (!target.classList.contains("keyboardButton")) {
         return
     }
-
     let key = target.textContent
 
-    if (key === 'Del') {
-        key = 'Backspace'
-    }
+    if (key === "Del") {
+        key = "Backspace"
+    } 
 
-    document.dispatchEvent(new KeyboardEvent('Keyup', { 'key': key }))
+    document.dispatchEvent(new KeyboardEvent("keyup", {'key': key}))
 })
 
 // Animation for animateCSS
