@@ -80,94 +80,6 @@ function deleteLetter() {
 }
 
 // Check guess
-function checkGuess() {
-    let row = document.getElementsByClassName('letterRow')[6 - guessesRemaining]
-    let guessString = ''
-    let rightGuess = Array.from(rightGuessString)
-
-    for (const val of currentGuess) {
-        guessString += val
-    }
-
-    if (guessString.length != 5) {
-        alert('Not enough letters!')
-        return
-    }
-
-    if (!WORDS.includes(guessString)) {
-        alert('Word no in list!')
-        return
-    }
-
-    for (let i = 0; i < 5; i++) {
-        let letterColor = ""
-        let box = row.children[i]
-        let letter = currentGuess[i]
-
-        let letterPosition = rightGuess.indexOf(currentGuess[i])
-        // is letter in the correct guess
-        if (letterPosition === -1) {
-            letterColor = 'grey'
-        } else {
-            // now, letter is definitely in word
-            // if letter index and right guess index are the same
-            // letter is in the right position 
-            if (currentGuess[i] === rightGuess[i]) {
-                // shade green
-                letterColor = 'green'
-            } else {
-                // shade box yellow
-                letterColor = 'yellow'
-            }
-
-            rightGuess[letterPosition] = '#'
-        }
-
-        let delay = 250 * i
-        setTimeout(() => {
-            //flip box
-            animateCSS(box, 'flipInX')
-            // shade box
-            box.style.backgroundColor = letterColor
-            shadekeyBoard(letter, letterColor)
-        }, delay)
-    }
-
-    if (guessString === rightGuessString) {
-        alert('You guessed right! Game Over!')
-        guessesRemaining = 0
-        return
-    } else {
-        guessesRemaining -= 1
-        currentGuess = []
-        nextLetter = 0
-
-        if (guessesRemaining === 0) {
-            alert(`You've run out of guesses! Game Over!`)
-            alert(`The right word was: ${rightGuessString}`)
-        }
-    }
-}
-
-// shade keyboard to make letters
-function shadekeyBoard(letter, color) {
-    for (const elem of document.getElementsByClassName('keyboardButton')) {
-        if (elem.textContent === letter) {
-            let oldColor = elem.style.backgroundColor
-            if (oldColor === 'green') {
-                return
-            }
-
-            if (oldColor === 'yellow' && color !== 'green') {
-                return
-            }
-
-            elem.style.backgroundColor = color
-            break
-        }
-    }
-}
-
 // replace notification alerts with toastr
 
 function checkGuess() {
@@ -236,6 +148,25 @@ function checkGuess() {
         if (guessesRemaining === 0) {
             toastr.error("You've run out of guesses! Game over!")
             toastr.info(`The right word was: "${rightGuessString}"`)
+        }
+    }
+}
+
+// shade keyboard to make letters
+function shadekeyBoard(letter, color) {
+    for (const elem of document.getElementsByClassName('keyboardButton')) {
+        if (elem.textContent === letter) {
+            let oldColor = elem.style.backgroundColor
+            if (oldColor === 'green') {
+                return
+            }
+
+            if (oldColor === 'yellow' && color !== 'green') {
+                return
+            }
+
+            elem.style.backgroundColor = color
+            break
         }
     }
 }
