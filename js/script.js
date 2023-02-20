@@ -171,7 +171,7 @@ function shadekeyBoard(letter, color) {
 // replace notification alerts with toastr
 
 function checkGuess() {
-    let row = document.getElementsByClassName("letter-row")[6 - guessesRemaining]
+    let row = document.getElementsByClassName("letterRow")[6 - guessesRemaining]
     let guessString = ''
     let rightGuess = Array.from(rightGuessString)
 
@@ -216,6 +216,8 @@ function checkGuess() {
 
         let delay = 250 * i
         setTimeout(() => {
+            //flip box
+            animateCSS(box, 'flipInX')
             //shade box
             box.style.backgroundColor = letterColor
             shadeKeyBoard(letter, letterColor)
