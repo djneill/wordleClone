@@ -100,7 +100,7 @@ function checkGuess() {
     }
 
     for (let i = 0; i < 5; i++) {
-        let letterColor = ''
+        let letterColor = ""
         let box = row.children[i]
         let letter = currentGuess[i]
 
