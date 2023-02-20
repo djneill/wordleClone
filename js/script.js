@@ -234,3 +234,21 @@ function checkGuess () {
         }
     }
 }
+
+// On screen keyboard functionality
+
+document.getElementById('keyboardCont').addEventListener('click', (e) => {
+    const target = e.target
+    
+    if (!target.classList.contains('keyboardButton')) {
+        return
+    }
+
+    let key = target.textContent
+
+    if (key === 'Del') {
+        key = 'Backspace'
+    }
+
+    document.dispatchEvent(new KeyboardEvent('Keyup', {'key': key}))
+})
