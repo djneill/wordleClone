@@ -145,3 +145,22 @@ function checkGuess() {
         }
     }
 }
+
+// shade keyboard to make letters
+function shadekeyBoard(letter, color) {
+    for (const elem of document.getElementsByClassName('keyboardButton')) {
+        if (elem.textContent === letter) {
+            let oldColor = elem.style.backgroundColor
+            if (oldColor === 'green') {
+                return
+            }
+
+            if (oldColor === 'yellow' && color !== 'green') {
+                return
+            }
+
+            elem.style.backgroundColor = color
+            break
+        }
+    }
+}
