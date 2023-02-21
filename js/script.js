@@ -6,7 +6,7 @@ let currentGuess = []
 let nextLetter = 0
 let rightGuessString = WORDS[Math.floor(Math.random() * WORDS.length)]
 console.log(rightGuessString)
-
+  
 // Build game board of five rows with five boxes
 function initBoard() {
     let board = document.getElementById('gameBoard')
@@ -209,3 +209,5 @@ const animateCSS = (element, animation, prefix = 'animate__') =>
 
         node.addEventListener('animationend', handleAnimationEnd, { once: true });
     });
+
+    
