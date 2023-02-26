@@ -27,6 +27,29 @@ function initBoard() {
 
 initBoard()
 
+// Start a new game reset guesses
+function startNewGame() {
+    guessesRemaining = NUMBER_OF_GUESSES
+    currentGuess = []
+    nextLetter = 0
+    rightGuessString = WORDS[Math.floor(Math.random() * WORDS.length)]
+    console.log(rightGuessString)
+  
+    // Reset game board
+    let letterBoxes = document.querySelectorAll('.letterBox')
+    for (let i = 0; i < letterBoxes.length; i++) {
+      letterBoxes[i].textContent = ''
+      letterBoxes[i].classList.remove('filledBox')
+      letterBoxes[i].style.backgroundColor = 'white'
+    }
+  
+    // Reset keyboard
+    let keyboardButtons = document.querySelectorAll('.keyboardButton')
+    for (let i = 0; i < keyboardButtons.length; i++) {
+      keyboardButtons[i].style.backgroundColor = 'white'
+    }
+  }
+
 // Keyup event listener for letter keys
 document.addEventListener('keyup', (e) => {
     if (guessesRemaining === 0) {
@@ -139,6 +162,11 @@ function checkGuess() {
     if (guessString === rightGuessString) {
         toastr.success("You guessed right! Game over!")
         guessesRemaining = 0
+
+        setTimeout(() => {
+            startNewGame()
+        }, 2000)
+
         return
     } else {
         guessesRemaining -= 1;
@@ -148,6 +176,10 @@ function checkGuess() {
         if (guessesRemaining === 0) {
             toastr.error("You've run out of guesses! Game over!")
             toastr.info(`The right word was: "${rightGuessString}"`)
+
+            setTimeout(() => {
+                startNewGame()
+            }, 2000)
         }
     }
 }
