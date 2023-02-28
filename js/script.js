@@ -26,6 +26,8 @@ function initBoard() {
 }
 
 initBoard()
+initHelpModal()
+initStatsModal()
 
 // Start a new game reset guesses
 function startNewGame() {
@@ -242,4 +244,70 @@ const animateCSS = (element, animation, prefix = 'animate__') =>
         node.addEventListener('animationend', handleAnimationEnd, { once: true });
     });
 
+    function initHelpModal() {
+        const modal = document.getElementById("help-modal");
     
+        // Get the button that opens the modal
+        const btn = document.getElementById("help");
+    
+        // Get the <span> element that closes the modal
+        const span = document.getElementById("close-help");
+    
+        // When the user clicks on the button, open the modal
+        btn.addEventListener("click", function () {
+          modal.style.display = "block";
+        });
+    
+        // When the user clicks on <span> (x), close the modal
+        span.addEventListener("click", function () {
+          modal.style.display = "none";
+        });
+    
+        // When the user clicks anywhere outside of the modal, close it
+        window.addEventListener("click", function (event) {
+          if (event.target == modal) {
+            modal.style.display = "none";
+          }
+        });
+      }
+
+      function updateStatsModal() {
+        const currentStreak = window.localStorage.getItem("currentStreak");
+        const totalWins = window.localStorage.getItem("totalWins");
+        const totalGames = window.localStorage.getItem("totalGames");
+    
+        document.getElementById("total-played").textContent = totalGames;
+        document.getElementById("total-wins").textContent = totalWins;
+        document.getElementById("current-streak").textContent = currentStreak;
+    
+        const winPct = Math.round((totalWins / totalGames) * 100) || 0;
+        document.getElementById("win-pct").textContent = winPct;
+      }
+    
+      function initStatsModal() {
+        const modal = document.getElementById("stats-modal");
+    
+        // Get the button that opens the modal
+        const btn = document.getElementById("stats");
+    
+        // Get the <span> element that closes the modal
+        const span = document.getElementById("close-stats");
+    
+        // When the user clicks on the button, open the modal
+        btn.addEventListener("click", function () {
+          updateStatsModal();
+          modal.style.display = "block";
+        });
+    
+        // When the user clicks on <span> (x), close the modal
+        span.addEventListener("click", function () {
+          modal.style.display = "none";
+        });
+    
+        // When the user clicks anywhere outside of the modal, close it
+        window.addEventListener("click", function (event) {
+          if (event.target == modal) {
+            modal.style.display = "none";
+          }
+        });
+      }
