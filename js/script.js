@@ -28,6 +28,7 @@ function initBoard() {
 initBoard()
 initHelpModal()
 initStatsModal()
+// Local storage 
 
 // Start a new game reset guesses
 function startNewGame() {
