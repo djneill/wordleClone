@@ -5,6 +5,11 @@ let guessesRemaining = NUMBER_OF_GUESSES
 let currentGuess = []
 let nextLetter = 0
 let rightGuessString = WORDS[Math.floor(Math.random() * WORDS.length)]
+let numGamesPlayed = 0
+let numGamesWon = 0
+let numGamesLost = 0
+let winPercentage = 0
+let currentWinStreak = 0
 console.log(rightGuessString)
   
 // Build game board of five rows with five boxes
@@ -23,6 +28,47 @@ function initBoard() {
 
         board.appendChild(row)
     }
+}
+
+// Call retrieveGameState to update game state from localStorage
+retrieveGameState()
+
+// Retrieve game state from localStorage
+function retrieveGameState() {
+    const gameState = JSON.parse(localStorage.getItem("gameState"));
+
+    if (gameState !== null) {
+        guessesRemaining = gameState.guessesRemaining;
+        currentGuess = gameState.currentGuess;
+        nextLetter = gameState.nextLetter;
+        rightGuessString = gameState.rightGuessString;
+
+        // Set the game board based on the retrieved state
+        let rows = document.getElementsByClassName('letterRow')
+        for (let i = 0; i < rows.length; i++) {
+            let boxes = rows[i].getElementsByClassName('letterBox')
+            for (let j = 0; j < boxes.length; j++) {
+                let index = i * 5 + j
+                let box = boxes[j]
+                box.textContent = currentGuess[index] ? currentGuess[index] : ''
+                if (currentGuess[index]) {
+                    box.classList.add('filledBox')
+                }
+            }
+        }
+    }
+}
+
+// Save game state to localStorage
+function saveGameState() {
+    const gameState = {
+        guessesRemaining: guessesRemaining,
+        currentGuess: currentGuess,
+        nextLetter: nextLetter,
+        rightGuessString: rightGuessString
+    };
+
+    localStorage.setItem("gameState", JSON.stringify(gameState));
 }
 
 initBoard()
@@ -51,7 +97,29 @@ function startNewGame() {
     for (let i = 0; i < keyboardButtons.length; i++) {
       keyboardButtons[i].style.backgroundColor = 'white'
     }
-  }
+
+    // Update game statistics
+    let guessString = currentGuess.join('')
+    if (guessesRemaining === 0) {
+        numGamesLost++
+        currentWinStreak = 0
+    } else if (guessString === rightGuessString) {
+        numGamesWon++
+        currentWinStreak++
+    } else {
+        currentWinStreak =0
+    }
+
+    numGamesPlayed++
+    winPercentage = numGamesWon / numGamesPlayed
+  
+
+  // Remove game state from localStorage
+  localStorage.removeItem("gameState");
+
+  // Save initial game state to localStorage
+  saveGameState();
+}
 
 // Keyup event listener for letter keys
 document.addEventListener('keyup', (e) => {
@@ -80,7 +148,7 @@ document.addEventListener('keyup', (e) => {
 
 // Insert letters into gameboard
 function insertLetter(pressedKey) {
-    if (nextLetter === 5) {
+    if (guessesRemaining === 0 || nextLetter === 5) {
         return
     }
 
@@ -273,16 +341,16 @@ const animateCSS = (element, animation, prefix = 'animate__') =>
       }
 
       function updateStatsModal() {
-        const currentStreak = window.localStorage.getItem("currentStreak");
-        const totalWins = window.localStorage.getItem("totalWins");
-        const totalGames = window.localStorage.getItem("totalGames");
+        const currentWinStreak = window.localStorage.getItem("currentWinStreak");
+        const numGamesWon = window.localStorage.getItem("numGamesWon");
+        const numGamesPlayed = window.localStorage.getItem("numGamesPlayed");
     
-        document.getElementById("total-played").textContent = totalGames;
-        document.getElementById("total-wins").textContent = totalWins;
-        document.getElementById("current-streak").textContent = currentStreak;
+        document.getElementById("total-played").textContent = numGamesPlayed;
+        document.getElementById("total-wins").textContent = numGamesWon;
+        document.getElementById("current-streak").textContent = currentWinStreak;
     
-        const winPct = Math.round((totalWins / totalGames) * 100) || 0;
-        document.getElementById("win-pct").textContent = winPct;
+        const winPercentage = Math.round((numGamesWon / numGamesPlayed) * 100) || 0;
+        document.getElementById("win-pct").textContent = winPercentage;
       }
     
       function initStatsModal() {
@@ -312,3 +380,5 @@ const animateCSS = (element, animation, prefix = 'animate__') =>
           }
         });
       }
+
+      
