@@ -79,8 +79,10 @@ function saveGameState() {
 }
 
 initBoard()
+retrieveGameState()
 initHelpModal()
 initStatsModal()
+updateStatsModal()
 // Local storage 
 
 // Start a new game reset guesses
@@ -126,7 +128,7 @@ function startNewGame() {
     window.localStorage.setItem("guessesRemaining", guessesRemaining);
     window.localStorage.setItem("currentGuess", currentGuess);
     window.localStorage.setItem("nextLetter", nextLetter);
-
+    window.localStorage.setItem("winPercentage", winPercentage)
         
   
 
