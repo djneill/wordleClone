@@ -181,8 +181,8 @@ function insertLetter(pressedKey) {
     box.classList.add('filledBox')
     currentGuess.push(pressedKey)
     nextLetter += 1
+    saveGameState()
 }
-saveGameState()
 
 // Delete previous letter entered
 function deleteLetter() {
@@ -192,8 +192,8 @@ function deleteLetter() {
     box.classList.remove('filledBox')
     currentGuess.pop()
     nextLetter -= 1
+    saveGameState()
 }
-saveGameState()
 
 // Check guess
 // replace notification alerts with toastr
@@ -275,8 +275,8 @@ function checkGuess() {
             }, 2000)
         }
     }
+    saveGameState()
 }
-saveGameState()
 
 // shade keyboard to make letters
 function shadeKeyBoard(letter, color) {
@@ -294,9 +294,10 @@ function shadeKeyBoard(letter, color) {
             elem.style.backgroundColor = color
             break
         }
+ 
     }
+    saveGameState()
 }
-saveGameState()
 
 // On screen keyboard functionality
 
