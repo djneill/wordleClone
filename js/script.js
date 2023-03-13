@@ -29,6 +29,7 @@ function initBoard() {
         board.appendChild(row)
     }
 }
+updateStatsModal()
 
 // Call retrieveGameState to update game state from localStorage
 retrieveGameState()
@@ -42,6 +43,7 @@ function retrieveGameState() {
         currentGuess = gameState.currentGuess;
         nextLetter = gameState.nextLetter;
         rightGuessString = gameState.rightGuessString;
+        winPercentage = gameState.winPercentage
 
         // Set the game board based on the retrieved state
         let rows = document.getElementsByClassName('letterRow')
@@ -65,7 +67,12 @@ function saveGameState() {
         guessesRemaining: guessesRemaining,
         currentGuess: currentGuess,
         nextLetter: nextLetter,
-        rightGuessString: rightGuessString
+        rightGuessString: rightGuessString,
+        numGamesPlayed: numGamesPlayed,
+        numGamesWon: numGamesWon,
+        numGamesLost: numGamesLost,
+        winPercentage: winPercentage,
+        currentWinStreak: currentWinStreak
     };
 
     localStorage.setItem("gameState", JSON.stringify(gameState));
@@ -112,14 +119,24 @@ function startNewGame() {
 
     numGamesPlayed++
     winPercentage = numGamesWon / numGamesPlayed
+
+    window.localStorage.setItem("currentWinStreak", currentWinStreak);
+    window.localStorage.setItem("numGamesWon", numGamesWon);
+    window.localStorage.setItem("numGamesPlayed", numGamesPlayed);
+    window.localStorage.setItem("guessesRemaining", guessesRemaining);
+    window.localStorage.setItem("currentGuess", currentGuess);
+    window.localStorage.setItem("nextLetter", nextLetter);
+
+        
   
 
   // Remove game state from localStorage
   localStorage.removeItem("gameState");
 
   // Save initial game state to localStorage
-  saveGameState();
+  saveGameState(); 
 }
+retrieveGameState()
 
 // Keyup event listener for letter keys
 document.addEventListener('keyup', (e) => {
@@ -144,6 +161,7 @@ document.addEventListener('keyup', (e) => {
     } else {
         insertLetter(pressedKey)
     }
+    saveGameState()
 })
 
 // Insert letters into gameboard
@@ -162,6 +180,7 @@ function insertLetter(pressedKey) {
     currentGuess.push(pressedKey)
     nextLetter += 1
 }
+saveGameState()
 
 // Delete previous letter entered
 function deleteLetter() {
@@ -172,6 +191,7 @@ function deleteLetter() {
     currentGuess.pop()
     nextLetter -= 1
 }
+saveGameState()
 
 // Check guess
 // replace notification alerts with toastr
@@ -254,6 +274,7 @@ function checkGuess() {
         }
     }
 }
+saveGameState()
 
 // shade keyboard to make letters
 function shadeKeyBoard(letter, color) {
@@ -273,6 +294,7 @@ function shadeKeyBoard(letter, color) {
         }
     }
 }
+saveGameState()
 
 // On screen keyboard functionality
 
