@@ -11,7 +11,7 @@ let numGamesLost = 0
 let winPercentage = 0
 let currentWinStreak = 0
 console.log(rightGuessString)
-  
+
 // Build game board of five rows with five boxes
 function initBoard() {
     let board = document.getElementById('gameBoard')
@@ -29,7 +29,6 @@ function initBoard() {
         board.appendChild(row)
     }
 }
-updateStatsModal()
 
 // Call retrieveGameState to update game state from localStorage
 retrieveGameState()
@@ -92,19 +91,19 @@ function startNewGame() {
     nextLetter = 0
     rightGuessString = WORDS[Math.floor(Math.random() * WORDS.length)]
     console.log(rightGuessString)
-  
+
     // Reset game board
     let letterBoxes = document.querySelectorAll('.letterBox')
     for (let i = 0; i < letterBoxes.length; i++) {
-      letterBoxes[i].textContent = ''
-      letterBoxes[i].classList.remove('filledBox')
-      letterBoxes[i].style.backgroundColor = 'white'
+        letterBoxes[i].textContent = ''
+        letterBoxes[i].classList.remove('filledBox')
+        letterBoxes[i].style.backgroundColor = 'white'
     }
-  
+
     // Reset keyboard
     let keyboardButtons = document.querySelectorAll('.keyboardButton')
     for (let i = 0; i < keyboardButtons.length; i++) {
-      keyboardButtons[i].style.backgroundColor = 'white'
+        keyboardButtons[i].style.backgroundColor = 'white'
     }
 
     // Update game statistics
@@ -112,11 +111,14 @@ function startNewGame() {
     if (guessesRemaining === 0) {
         numGamesLost++
         currentWinStreak = 0
+        saveGameState()
     } else if (guessString === rightGuessString) {
         numGamesWon++
         currentWinStreak++
+        saveGameState()
     } else {
-        currentWinStreak =0
+        currentWinStreak = 0
+        saveGameState()
     }
 
     numGamesPlayed++
@@ -129,16 +131,15 @@ function startNewGame() {
     window.localStorage.setItem("currentGuess", currentGuess);
     window.localStorage.setItem("nextLetter", nextLetter);
     window.localStorage.setItem("winPercentage", winPercentage)
-        
-  
+    saveGameState()
 
-  // Remove game state from localStorage
-  localStorage.removeItem("gameState");
+    // Remove game state from localStorage
+    //   localStorage.removeItem("gameState");
 
-  // Save initial game state to localStorage
-  saveGameState(); 
+    // Save initial game state to localStorage
+    saveGameState();
+    retrieveGameState()
 }
-retrieveGameState()
 
 // Keyup event listener for letter keys
 document.addEventListener('keyup', (e) => {
@@ -285,7 +286,7 @@ function shadeKeyBoard(letter, color) {
             let oldColor = elem.style.backgroundColor
             if (oldColor === 'green') {
                 return
-            } 
+            }
 
             if (oldColor === 'yellow' && color !== 'green') {
                 return
@@ -294,7 +295,7 @@ function shadeKeyBoard(letter, color) {
             elem.style.backgroundColor = color
             break
         }
- 
+
     }
     saveGameState()
 }
@@ -303,7 +304,7 @@ function shadeKeyBoard(letter, color) {
 
 document.getElementById("keyboardCont").addEventListener("click", (e) => {
     const target = e.target
-    
+
     if (!target.classList.contains("keyboardButton")) {
         return
     }
@@ -311,9 +312,9 @@ document.getElementById("keyboardCont").addEventListener("click", (e) => {
 
     if (key === "Del") {
         key = "Backspace"
-    } 
+    }
 
-    document.dispatchEvent(new KeyboardEvent("keyup", {'key': key}))
+    document.dispatchEvent(new KeyboardEvent("keyup", { 'key': key }))
 })
 
 // Animation for animateCSS
@@ -338,72 +339,75 @@ const animateCSS = (element, animation, prefix = 'animate__') =>
         node.addEventListener('animationend', handleAnimationEnd, { once: true });
     });
 
-    function initHelpModal() {
-        const modal = document.getElementById("help-modal");
-    
-        // Get the button that opens the modal
-        const btn = document.getElementById("help");
-    
-        // Get the <span> element that closes the modal
-        const span = document.getElementById("close-help");
-    
-        // When the user clicks on the button, open the modal
-        btn.addEventListener("click", function () {
-          modal.style.display = "block";
-        });
-    
-        // When the user clicks on <span> (x), close the modal
-        span.addEventListener("click", function () {
-          modal.style.display = "none";
-        });
-    
-        // When the user clicks anywhere outside of the modal, close it
-        window.addEventListener("click", function (event) {
-          if (event.target == modal) {
-            modal.style.display = "none";
-          }
-        });
-      }
+function initHelpModal() {
+    const modal = document.getElementById("help-modal");
 
-      function updateStatsModal() {
-        const currentWinStreak = window.localStorage.getItem("currentWinStreak");
-        const numGamesWon = window.localStorage.getItem("numGamesWon");
-        const numGamesPlayed = window.localStorage.getItem("numGamesPlayed");
-    
-        document.getElementById("total-played").textContent = numGamesPlayed;
-        document.getElementById("total-wins").textContent = numGamesWon;
-        document.getElementById("current-streak").textContent = currentWinStreak;
-    
-        const winPercentage = Math.round((numGamesWon / numGamesPlayed) * 100) || 0;
-        document.getElementById("win-pct").textContent = winPercentage;
-      }
-    
-      function initStatsModal() {
-        const modal = document.getElementById("stats-modal");
-    
-        // Get the button that opens the modal
-        const btn = document.getElementById("stats");
-    
-        // Get the <span> element that closes the modal
-        const span = document.getElementById("close-stats");
-    
-        // When the user clicks on the button, open the modal
-        btn.addEventListener("click", function () {
-          updateStatsModal();
-          modal.style.display = "block";
-        });
-    
-        // When the user clicks on <span> (x), close the modal
-        span.addEventListener("click", function () {
-          modal.style.display = "none";
-        });
-    
-        // When the user clicks anywhere outside of the modal, close it
-        window.addEventListener("click", function (event) {
-          if (event.target == modal) {
-            modal.style.display = "none";
-          }
-        });
-      }
+    // Get the button that opens the modal
+    const btn = document.getElementById("help");
 
-      
+    // Get the <span> element that closes the modal
+    const span = document.getElementById("close-help");
+
+    // When the user clicks on the button, open the modal
+    btn.addEventListener("click", function () {
+        modal.style.display = "block";
+    });
+
+    // When the user clicks on <span> (x), close the modal
+    span.addEventListener("click", function () {
+        modal.style.display = "none";
+    });
+
+    // When the user clicks anywhere outside of the modal, close it
+    window.addEventListener("click", function (event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    });
+}
+
+function updateStatsModal() {
+    let currentWinStreak = window.localStorage.getItem("currentWinStreak");
+    let numGamesWon = window.localStorage.getItem("numGamesWon");
+    let numGamesPlayed = window.localStorage.getItem("numGamesPlayed");
+    window.localStorage.getItem("guessesRemaining");
+    window.localStorage.getItem("currentGuess");
+    window.localStorage.getItem("nextLetter");
+    window.localStorage.getItem("winPercentage")
+
+    document.getElementById("total-played").textContent = numGamesPlayed;
+    document.getElementById("total-wins").textContent = numGamesWon;
+    document.getElementById("current-streak").textContent = currentWinStreak;
+
+    const winPercentage = Math.round((numGamesWon / numGamesPlayed) * 100) || 0;
+    document.getElementById("win-pct").textContent = winPercentage;
+}
+
+function initStatsModal() {
+    const modal = document.getElementById("stats-modal");
+
+    // Get the button that opens the modal
+    const btn = document.getElementById("stats");
+
+    // Get the <span> element that closes the modal
+    const span = document.getElementById("close-stats");
+
+    // When the user clicks on the button, open the modal
+    btn.addEventListener("click", function () {
+        updateStatsModal();
+        modal.style.display = "block";
+    });
+
+    // When the user clicks on <span> (x), close the modal
+    span.addEventListener("click", function () {
+        modal.style.display = "none";
+    });
+
+    // When the user clicks anywhere outside of the modal, close it
+    window.addEventListener("click", function (event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    });
+}
+
