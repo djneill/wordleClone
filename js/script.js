@@ -42,7 +42,11 @@ function retrieveGameState() {
         currentGuess = gameState.currentGuess;
         nextLetter = gameState.nextLetter;
         rightGuessString = gameState.rightGuessString;
+        numGamesPlayed = gameState.numGamesPlayed
+        numGamesWon = gameState.numGamesWon
+        numGamesLost = gameState.numGamesLost
         winPercentage = gameState.winPercentage
+        currentWinStreak = gameState.currentWinStreak
 
         // Set the game board based on the retrieved state
         let rows = document.getElementsByClassName('letterRow')
