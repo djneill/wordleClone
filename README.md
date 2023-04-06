@@ -1,3 +1,5 @@
+<img align="center" src="images/read.png" />
+
 <h1 align="center">Wordle Clone</h1>
 
 A simple copy of the Wordle game using HTML, CSS, Javascript with an array of words that are choosen at random during page load. 
